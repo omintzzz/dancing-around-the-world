@@ -10,10 +10,11 @@
 	let value;
   
 	const steps = [
-	  "<p> Dance is universal </p>",
-	  "<p> TikTok makes seeing dance easier </p>",
-	  "<p> Other stuff... la la la </p>",
-	  "<p> Take this quiz to see what dance style would suit you the best </p>"
+	  "<p> Dance is universal, but TikTok has made it even easier. Whether it be sharing cultural dance styles or circulating some trendy moves to a popular song, this app has been a key component in making dance more accessible for people all over the world. </p>",
+    "<p> The short-form video platform know for spreading knowledge and culture has seen an increase in showcasing various dance styles around the world. Especially in the digital age, there has been a shift in how people dance and how it is viewed in general. </p>",
+    "<p> Though the app was never made specifically for dance, the app initially was known for its contribution to creating dance challenges that users could replicate with their own style. These challenges were not extremely complicated but typically included arm and upper body movements. Dances like the Renegade, Say So, and Supalonely became popular online during the pandemic as many people were home. </p>",
+	"<p> Another paragraph about sharing different dances that are not tik tok specific... </p>",
+    "<p> Take this quiz to see what dance style would suit you the best </p>"
 	];
   
 	const videos = [  

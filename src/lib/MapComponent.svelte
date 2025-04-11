@@ -11,11 +11,11 @@
     src="https://www.worldometers.info/world-map/world-map.jpg"
     width="700"
     height="500"
-    usemap="#workmap"
+    usemap="#imagemap"
     alt="World Map"
   />
 
-  <map name="workmap">
+  <map name="imagemap">
     <!-- Hip Hop: Bronx, NYC -->
     <area
       shape="circle"
@@ -23,7 +23,7 @@
       alt="Hip Hop"
       role="button"
       tabindex="0"
-      on:click|preventDefault={(e) => {
+      on:click|preventDefault={() => {
         updateChoice("Hip Hop");
         goToSlide(3);
       }}
@@ -35,13 +35,14 @@
       }}
     />
 
+    <!-- Salsa: Cuba -->
     <area
       shape="circle"
       coords="297,388,15"
       alt="Salsa"
       role="button"
       tabindex="0"
-      on:click|preventDefault={(e) => {
+      on:click|preventDefault={() => {
         updateChoice("Salsa");
         goToSlide(3);
       }}
@@ -52,15 +53,15 @@
         }
       }}
     />
-    />
 
+    <!-- Viennese Waltz: Austria -->
     <area
       shape="circle"
       coords="609,285,15"
       alt="Viennese Waltz"
       role="button"
       tabindex="0"
-      on:click|preventDefault={(e) => {
+      on:click|preventDefault={() => {
         updateChoice("Viennese Waltz");
         goToSlide(3);
       }}
@@ -71,8 +72,7 @@
         }
       }}
     />
-      }}
-    />
+  </map>
 
   <button on:click={() => goToSlide(2)}>Back to Quiz</button>
 </div>
@@ -93,7 +93,7 @@
   }
 
   area:focus {
-    outline: 2px solid #ff6347; /* Change focus outline color to make it stand out */
+    outline: 2px solid #ff6347;
   }
 
   button {
