@@ -8,5 +8,5 @@ export default defineConfig({
     outDir: 'docs',
     emptyOutDir: true
 },
-base: './dancing-around-the-world'
+base: '/dancing-around-the-world'
 })
