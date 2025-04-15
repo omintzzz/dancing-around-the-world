@@ -20,7 +20,7 @@
     ></iframe>
   </div>
   
-  <button on:click={() => goToSlide(4)}>Back to Map</button>
+  <button on:click={() => goToSlide(4)}>Check out More Dances</button>
   
   <style>
     h2 {
