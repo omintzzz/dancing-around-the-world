@@ -1,31 +1,29 @@
 <script>
-	export let tiktoks = [];
-</script>
-
-<div class ="collage">
-	{#each tiktoks as url}
-	<!-- svelte-ignore a11y_missing_attribute -->
-	<iframe
-		src={url.replace("/video/", "/embed/")}
-		frameborder="0"
-		allowfullscreen
-		class="tiktok-frame"
-		></iframe>
+	export let videos;
+  </script>
+  
+  <div class="video-container">
+	{#each videos as video}
+	  <video src={video} controls>
+		<track kind="captions" src="path/to/captions.vtt" srclang="en" label="English" default>
+	  </video>
 	{/each}
-</div>
-
-<style>
-	.collage {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 1rem;
-		padding: 2rem;
-		width: 100%;
+  </div>
+  
+  <style>
+	.video-container {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  gap: 1rem;
+	  flex-wrap: wrap;
+	  width: 100%;
 	}
-
-	.tiktok-frame {
-		width: 100%;
-		height: 500px;
-		border-radius: 10px;
+  
+	video {
+	  max-width: 100%;
+	  height: auto;
+	  border-radius: 8px;
 	}
-</style>
+  </style>
+  

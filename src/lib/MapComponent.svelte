@@ -1,108 +1,153 @@
 <script>
+  import { onMount } from "svelte";
+  import mapboxgl from "mapbox-gl";
+  import "mapbox-gl/dist/mapbox-gl.css"; // ✅ Import Mapbox CSS
+
   export let goToSlide;
   export let updateChoice;
+
+  mapboxgl.accessToken = "pk.eyJ1Ijoib21pbnR6enoiLCJhIjoiY204eW5ocnN0MDBmeDJrb2FzeHA0ODNvZyJ9.QMAL3XlhRCYHf-Xywn6FhA";
+
+  let map;
+
+  const danceLocations = [
+    {
+      name: "Hip Hop",
+      coords: [-73.92357, 40.82732],
+      type: "quiz",
+      popupContent: "Hip Hop - Bronx, NY"
+    },
+    {
+      name: "Salsa",
+      coords: [-75.82667, 20.02083],
+      type: "quiz",
+      popupContent: "Salsa - Santiago de Cuba"
+    },
+    {
+      name: "English Waltz",
+      coords: [-0.1278, 51.5074],
+      type: "quiz",
+      popupContent: "English Waltz - London"
+    },
+    {
+      name: "Samba",
+      coords: [-51.9253, -14.2350],
+      type: "extra",
+      slide: 5,
+      popupContent: "Samba - Brazil"
+    },
+    {
+      name: "Gwara Gwara",
+      coords: [22.9375, -30.5595],
+      type: "extra",
+      slide: 6,
+      popupContent: "Gwara Gwara - South Africa"
+    },
+    {
+      name: "Bhangra",
+      coords: [75.8577, 31.1048],
+      type: "extra",
+      slide: 7,
+      popupContent: "Bhangra - Punjab, India"
+    },
+  ];
+
+  function handleClick(dance) {
+    if (dance.type === "quiz") {
+      updateChoice(dance.name);
+      goToSlide(3);
+    } else if (dance.type === "extra" && dance.slide) {
+      goToSlide(dance.slide);
+    }
+  }
+
+  onMount(() => {
+    map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/light-v10",
+      center: [0, 20],
+      zoom: 1,
+    });
+
+    map.scrollZoom.disable();
+    map.boxZoom.disable();
+    map.dragRotate.disable();
+    map.dragPan.disable();
+    map.keyboard.disable();
+    map.doubleClickZoom.disable();
+    map.touchZoomRotate.disable();
+
+    danceLocations.forEach((dance) => {
+      const el = document.createElement("div");
+      el.setAttribute("class", "marker");
+      el.setAttribute("title", dance.popupContent);
+
+      el.addEventListener("click", () => handleClick(dance));
+
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat(dance.coords)
+        .addTo(map);
+
+      const popup = new mapboxgl.Popup({ offset: 25 })
+        .setText(dance.popupContent);
+
+      marker.setPopup(popup);
+    });
+  });
 </script>
 
-<div id="map">
-  <h3>Map of Dance Locations</h3>
-  <p><strong>Click a region to explore its dance style!</strong></p>
-
-  <img
-    src="https://www.worldometers.info/world-map/world-map.jpg"
-    width="700"
-    height="500"
-    usemap="#imagemap"
-    alt="World Map"
-  />
-
-  <map name="imagemap">
-    <!-- Hip Hop: Bronx, NYC -->
-    <area
-      shape="circle"
-      coords="315,313,15"
-      alt="Hip Hop"
-      role="button"
-      tabindex="0"
-      on:click|preventDefault={() => {
-        updateChoice("Hip Hop");
-        goToSlide(3);
-      }}
-      on:keydown={(e) => {
-        if (e.key === 'Enter') {
-          updateChoice("Hip Hop");
-          goToSlide(3);
-        }
-      }}
-    />
-
-    <!-- Salsa: Cuba -->
-    <area
-      shape="circle"
-      coords="297,388,15"
-      alt="Salsa"
-      role="button"
-      tabindex="0"
-      on:click|preventDefault={() => {
-        updateChoice("Salsa");
-        goToSlide(3);
-      }}
-      on:keydown={(e) => {
-        if (e.key === 'Enter') {
-          updateChoice("Salsa");
-          goToSlide(3);
-        }
-      }}
-    />
-
-    <!-- Viennese Waltz: Austria -->
-    <area
-      shape="circle"
-      coords="609,285,15"
-      alt="Viennese Waltz"
-      role="button"
-      tabindex="0"
-      on:click|preventDefault={() => {
-        updateChoice("Viennese Waltz");
-        goToSlide(3);
-      }}
-      on:keydown={(e) => {
-        if (e.key === 'Enter') {
-          updateChoice("Viennese Waltz");
-          goToSlide(3);
-        }
-      }}
-    />
-  </map>
-
-  <button on:click={() => goToSlide(2)}>Back to Quiz</button>
+<div id="map-container">
+  <h2><strong>Choose a circle to learn about a new dance!</strong></h2>
+  <div id="map"></div>
+  <button on:click={() => goToSlide(2)}>Take the Quiz Again</button>
 </div>
 
 <style>
-  #map {
+  #map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
     text-align: center;
-    margin-top: 2rem;
+    padding: 2rem;
   }
 
-  img {
-    border: 2px solid #ccc;
+  h2{
+    margin: 0.5rem 0;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  #map {
+    width: 1000px;
+    height: 700px;
+    margin: 1rem 0;
     border-radius: 8px;
   }
 
-  area:hover {
+  :global(.marker) {
+    width: 20px;
+    height: 20px;
+    background-color: #FE2C55;
+    border-radius: 50%;
     cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    /* ✅ removed position: relative and z-index */
   }
 
-  area:focus {
-    outline: 2px solid #ff6347;
+  :global(.marker):hover {
+    transform: scale(1.3);
+    transition: transform 0.2s;
   }
 
   button {
     margin-top: 1.5rem;
     padding: 0.5rem 1rem;
-    border-radius: 8px;
-    background-color: #444;
+    background-color: #FE2C55;
     color: white;
     border: none;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
   }
